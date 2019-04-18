@@ -1,0 +1,52 @@
+* {
+  margin: 0;
+}
+
+  @import url('https://fonts.googleapis.com/css?family=Roboto');
+
+  $mainColor: #00985f;
+  $darknessColor: #1dc084;
+
+.left_menu-bar {
+  width: 300px;
+  min-width: 210px;
+  height: 100vh;
+  display: inline-block;
+  position: relative;
+  background-color: $mainColor;
+  font-size: 28px;
+  flex-grow: 2;
+  overflow: hidden;
+  overflow-y: auto;
+
+  .label {
+    color: white;
+    text-align: center;
+    height: auto;
+    display: inline-block;
+    font-family: 'Roboto';
+    width: 100%;
+    padding: 10px 0 10px 0;
+    border-bottom: 2px solid $darknessColor;
+    box-shadow: inner 3 0 0 0 black;
+  }
+}
+
+.delete-icon {
+  vertical-align: middle;
+  padding-right: 10px;
+  cursor: pointer;
+}
+
+@media all and (max-width : 700px) {
+  .left_menu-bar {
+    display: block;
+    width: 100%;
+    min-height: 40px;
+    height: auto;
+    box-sizing: border-box;
+    .label {
+      font-size: 24px;
+    }
+  }
+}

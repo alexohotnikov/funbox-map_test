@@ -1,0 +1,11 @@
+
+.flex-parent {
+  display: flex;
+  flex-direction: row;
+}
+
+@media all and (max-width : 700px) {
+  .flex-parent {
+    flex-direction: column;
+  }
+}

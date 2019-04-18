@@ -1,27 +1,27 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+
+import React, { Component }  from 'react';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+// Components: 
+import LeftBar from './components/LeftBar/LeftBar';
+import MapGeneral from './components/MapGeneral/MapGeneral';
+import reducer from './reducers'
+
+
+const store = createStore(reducer, {
+  listOfPoints: [ ],
+  mapProps: null,
+  pointsOnMap: []
+})
 
 class App extends Component {
   render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
+    return(
+      <Provider store = {store}>
+        <LeftBar/>
+        <MapGeneral/>
+      </Provider>
+    )
   }
 }
 
