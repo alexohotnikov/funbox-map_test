@@ -1,17 +1,15 @@
-export default ({ listOfPoints, mapProps, pointsOnMap }, { type, payload }) => {
+export default ({ listOfPoints, mapProps }, { type, payload }) => {
   switch(type) {
     case 'ADD_ITEM': {
       return ({
         listOfPoints: [...listOfPoints, payload],
         mapProps,
-        pointsOnMap
       })
     }
     case 'REPLACE_ALL': {
       return ({
         listOfPoints: [...payload],
         mapProps,
-        pointsOnMap
       })
     }
     case 'DELETE_INDEX': {
@@ -19,21 +17,18 @@ export default ({ listOfPoints, mapProps, pointsOnMap }, { type, payload }) => {
       return ({
         listOfPoints: [...listOfPoints],
         mapProps,
-        pointsOnMap
       })
     }
     case 'YMAP_INSTANCE_SAVE': {
       return({
         listOfPoints,
         mapProps: {...mapProps, ...payload},
-        pointsOnMap
       })
     }
     case 'ADD_POINT_ON_MAP': {
       return({
         listOfPoints: [...listOfPoints, { ...payload }],
         mapProps,
-        pointsOnMap
       })
     }
     case 'UPDATE_LIST_BY_MAP': {
@@ -45,7 +40,6 @@ export default ({ listOfPoints, mapProps, pointsOnMap }, { type, payload }) => {
             : { text, id, coords}
         })],
         mapProps,
-        pointsOnMap
       })
     }
     default: {
