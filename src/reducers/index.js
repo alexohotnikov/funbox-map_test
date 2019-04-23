@@ -22,7 +22,7 @@ export default ({ listOfPoints, mapProps, pointsOnMap }, { type, payload }) => {
         pointsOnMap
       })
     }
-    case 'MAP_SETTINGS_INIT': {
+    case 'YMAP_INSTANCE_SAVE': {
       return({
         listOfPoints,
         mapProps: {...mapProps, ...payload},
@@ -36,7 +36,7 @@ export default ({ listOfPoints, mapProps, pointsOnMap }, { type, payload }) => {
         pointsOnMap
       })
     }
-    case 'UPDATE_BY_MAP': {
+    case 'UPDATE_LIST_BY_MAP': {
       return({
         listOfPoints: [...listOfPoints.map(({ id, coords, text }) => {
           const { id: payId, arrayOfNewCoords: newCoords } = payload
@@ -49,7 +49,7 @@ export default ({ listOfPoints, mapProps, pointsOnMap }, { type, payload }) => {
       })
     }
     default: {
-      return { listOfPoints, mapProps, pointsOnMap }
+      return { listOfPoints, mapProps }
     }
   }
 }

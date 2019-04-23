@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import './MapGeneral.scss';
 import { connect } from 'react-redux';
 import { 
@@ -6,81 +6,91 @@ import {
   Placemark, Polyline, SearchControl
 } from 'react-yandex-maps'
 
-const MapGeneral = (props) => {
-  const refs = {
-    map: null
-  };
 
-  const mapData = {
-    center: [55.751574, 37.573856],
-    zoom: 9
-  };
+class MapGeneral extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.mapData = {
+      center: [55.751574, 37.573856],
+      zoom: 9
+    }
+    this.state = {
+      ymapInstance: null
+    }
+  }
 
-  return(
-    <div className = 'map-content'>
-    <YMaps>
-      <Map
-        defaultState={mapData} 
-        width="100%" height="100%"
-        modules = {['geocode','geoObject.addon.balloon']}
-        instanceRef = {(map) => refs.map = map}
-        onLoad = {(ymaps) => {
-          props.initMaps({ ymaps, map: refs.map })
-          ymaps.geocode("Ульяновск,Мира 24").then((res) => {
-            refs.map.setCenter([...res.geoObjects.get(0).geometry._coordinates], 10).then(() => {
-              refs.map.setZoom(14, {
-                duration: 1000
-            });
+  render() {
+    const { props, mapData, state } = this
+    return(
+      <div className = 'map-content'>
+      <YMaps>
+        <Map
+          defaultState={mapData} 
+          width="100%" height="100%"
+          modules = {['geocode','geoObject.addon.balloon']}
+          instanceRef = {(ymap) => this.setState({ ymapInstance: ymap })}
+          onLoad = {(ymaps) => {
+            props.initMaps({ ymaps, map: state.ymapInstance })
+            ymaps.geocode("Ульяновск,Мира 24").then((res) => {
+              state.ymapInstance.setCenter([...res.geoObjects.get(0).geometry._coordinates], 10).then(() => {
+                state.ymapInstance.setZoom(14, {
+                  duration: 1000
+              });
+              })
             })
-          })
-        }} >
-        <SearchControl/>
-        { props.mapPoints.length > 0 && props.mapPoints.map(({ text, id, coords}, index) => {
-          return (
-            <Placemark 
-              geometry = {coords}         
-              key={index} 
-              properties = {{ iconCaption: text, balloonContent: `Имя метки: ${text}`}}
-              options = {{ draggable: true, hasBalloon: true }}
-              onDragEnd = {({ originalEvent }) => {
-                props.updateCoordsByMap(id, originalEvent.target.geometry._coordinates)
-              }}
-            />
-          )})
-        }
-        <Polyline 
-          geometry = { props.mapPoints.map(({ coords }) => coords) } 
-          options = {{ 
-            strokeColor: '#00985f',
-            strokeWidth: 5, 
-            }} />
-        <GeolocationControl/>
-      </Map>
-    </YMaps>
-    </div>
-  )
+          }} >
+          <SearchControl/>
+          { props.mapPoints.length > 0 && props.mapPoints.map(({ text, id, coords}, index) => {
+            return (
+              <Placemark 
+                geometry = {coords}         
+                key={index} 
+                properties = {{ iconCaption: text, balloonContent: `Имя метки: ${text}`}}
+                options = {{ draggable: true, hasBalloon: true }}
+                onDragEnd = {({ originalEvent }) => {
+                  props.updateCoordsByMap(id, originalEvent.target.geometry._coordinates)
+                }}
+              />
+            )})
+          }
+          <Polyline 
+            geometry = { props.mapPoints.map(({ coords }) => coords) } 
+            options = {{ 
+              strokeColor: '#00985f',
+              strokeWidth: 5, 
+              }} />
+          <GeolocationControl/>
+        </Map>
+      </YMaps>
+      </div>
+    )
+  }
 }
 
+const mapStateToProps = (state) => ({
+  ymapInstance: state.map,
+  mapPoints: state.listOfPoints
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  initMaps: (mapSettings) => (
+    dispatch({
+      type: "YMAP_INSTANCE_SAVE",
+      payload: mapSettings
+    })
+  ),
+  updateCoordsByMap: (id, arrayOfNewCoords) => (
+    dispatch({
+      type: "UPDATE_LIST_BY_MAP",
+      payload: {
+        id,
+        arrayOfNewCoords
+      }
+    })
+  )
+})
+
 export default connect(
-  (state) => ({
-    map: state.map,
-    mapPoints: state.listOfPoints
-  }),
-  (dispatch) => ({
-    initMaps: (mapSettings) => (
-      dispatch({
-        type: "MAP_SETTINGS_INIT",
-        payload: mapSettings
-      })
-    ),
-    updateCoordsByMap: (id, arrayOfNewCoords) => (
-      dispatch({
-        type: "UPDATE_BY_MAP",
-        payload: {
-          id,
-          arrayOfNewCoords
-        }
-      })
-    )
-  })
-)(MapGeneral);
+    mapStateToProps, 
+    mapDispatchToProps
+  )(MapGeneral);
