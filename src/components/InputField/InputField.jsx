@@ -44,7 +44,6 @@ export default connect((state) => {
   })
 })(InputField)
 
-
 InputField.propTypes = {
   mapPoints: PropTypes.array.isRequired,
   addPointOnMap: PropTypes.func.isRequired,

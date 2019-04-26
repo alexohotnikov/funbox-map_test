@@ -1,4 +1,6 @@
-export default ({ listOfPoints, mapProps }, { type, payload }) => {
+import PropTypes from 'prop-types'
+
+const reducer = ({ listOfPoints, mapProps }, { type, payload }) => {
   switch(type) {
     case 'ADD_ITEM': {
       return ({
@@ -47,3 +49,5 @@ export default ({ listOfPoints, mapProps }, { type, payload }) => {
     }
   }
 }
+
+export default reducer;
