@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { Delete } from "@material-ui/icons";
+import PropTypes from 'prop-types';
 
 import './BarItems.scss';
 
@@ -71,3 +72,8 @@ export default connect((state) => {
     }
   })
 })(BarItems);
+
+// prop check:
+BarItems.propTypes = {
+  list: PropTypes.array.isRequired
+}

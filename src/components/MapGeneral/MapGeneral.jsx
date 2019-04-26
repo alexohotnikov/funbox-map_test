@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import { 
   YMaps, Map, GeolocationControl, 
   Placemark, Polyline, SearchControl
-} from 'react-yandex-maps'
+} from 'react-yandex-maps';
+import PropTypes from 'prop-types'
 
 
 class MapGeneral extends PureComponent {
@@ -95,3 +96,9 @@ export default connect(
     mapStateToProps, 
     mapDispatchToProps
   )(MapGeneral);
+
+  MapGeneral.propTypes = {
+    mapPoints: PropTypes.array.isRequired,
+    initMaps: PropTypes.func.isRequired,
+    updateCoordsByMap: PropTypes.func.isRequired,
+  }
