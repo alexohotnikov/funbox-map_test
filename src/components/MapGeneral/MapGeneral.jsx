@@ -15,7 +15,7 @@ class MapGeneral extends PureComponent {
       zoom: 9
     }
     this.state = {
-      ymapInstance: null
+      mapInstance: null
     }
   }
 
@@ -28,12 +28,13 @@ class MapGeneral extends PureComponent {
           defaultState={mapData} 
           width="100%" height="100%"
           modules = {['geocode','geoObject.addon.balloon']}
-          instanceRef = {(ymap) => this.setState({ ymapInstance: ymap })}
+          instanceRef = {(map) => this.setState({ mapInstance: map }, () => {
+            props.initMaps({ mapInstance: state.mapInstance })
+          })}
           onLoad = {(ymaps) => {
-            props.initMaps({ ymaps, map: state.ymapInstance })
             ymaps.geocode("Ульяновск,Мира 24").then((res) => {
-              state.ymapInstance.setCenter([...res.geoObjects.get(0).geometry._coordinates], 10).then(() => {
-                state.ymapInstance.setZoom(14, {
+              state.mapInstance.setCenter([...res.geoObjects.get(0).geometry._coordinates], 10).then(() => {
+                state.mapInstance.setZoom(14, {
                   duration: 1000
               });
               })
@@ -68,7 +69,7 @@ class MapGeneral extends PureComponent {
 }
 
 const mapStateToProps = (state) => ({
-  ymapInstance: state.map,
+  mapInstance: state.map,
   mapPoints: state.listOfPoints
 })
 

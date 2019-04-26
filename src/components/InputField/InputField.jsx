@@ -10,8 +10,8 @@ const InputField = (props) => {
   const searchField = (e) => {
       e.preventDefault();
       if(allRefs.input.value.length === 0) return;
-      const { map } = props.map;
-      props.addPointOnMap({ text:allRefs.input.value, coords: map.getCenter(), id: Date.now().toString() })
+      const { mapInstance } = props.mapProps;
+      props.addPointOnMap({ text:allRefs.input.value, coords: mapInstance.getCenter(), id: Date.now().toString() })
       allRefs.input.value = ''
     }
 
@@ -29,8 +29,7 @@ const InputField = (props) => {
 
 export default connect((state) => {
   return({
-    list: state.listItem,
-    map: state.mapProps,
+    mapProps: state.mapProps,
     mapPoints: state.listOfPoints
   })
 }, (dispatcher) => {
