@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types'
-
 const reducer = ({ listOfPoints, mapProps }, { type, payload }) => {
   switch(type) {
     case 'ADD_ITEM': {

@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { AddLocation } from '@material-ui/icons';
 import RaisedButton from '@material-ui/core/Button'
 import './InputField.scss';
-import { Input } from '@material-ui/core';
 import PropTypes from 'prop-types'
 
 const InputField = (props) => {
